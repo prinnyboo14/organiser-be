@@ -5,7 +5,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   BeforeInsert,
-  Timestamp,
   BeforeUpdate,
 } from 'typeorm';
 

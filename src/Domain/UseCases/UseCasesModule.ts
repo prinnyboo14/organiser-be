@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { GetAllBookings } from './Bookings/GetAllBookings';
 import { InfrastructureModule } from 'src/Infrastructure/InfrastructureModule';
-import { CreateBooking } from './Bookings/CreateBooking';
-import { GetBooking } from './Bookings/GetBooking';
+import { Bookings } from './Bookings';
 
 @Module({
   imports: [InfrastructureModule],
-  providers: [GetAllBookings, CreateBooking, GetBooking],
-  exports: [GetAllBookings, CreateBooking, GetBooking],
+  providers: [Bookings],
+  exports: [Bookings],
 })
 export class UseCasesModule {}
