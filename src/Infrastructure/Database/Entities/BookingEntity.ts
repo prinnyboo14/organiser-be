@@ -1,8 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, Timestamp } from 'typeorm';
+import { BookingStatusEnum } from 'src/Domain/Models/Enums';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  BeforeUpdate,
+} from 'typeorm';
 
 @Entity({ name: 'booking' })
 export class BookingEntity extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   // @Column()
@@ -11,18 +19,28 @@ export class BookingEntity extends BaseEntity {
   @Column()
   service: string;
 
-  // @Column({ name: 'booking_date', type: 'timestamp' })
-  // bookingDate: Timestamp;
+  @Column({ name: 'booking_date', type: 'timestamp' })
+  bookingDate: Date;
 
   @Column({ name: 'booking_status' })
-  bookingStatus: string; // add booking status enum
+  bookingStatus: BookingStatusEnum;
 
   @Column({ nullable: true })
   notes: string;
 
-  // @Column({ name: 'created_at', type: 'timestamp' })
-  // createdAt: Timestamp;
+  @Column({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
 
-  // @Column({ name: 'updated_at', type: 'timestamp' })
-  // updatedAt: Timestamp;
+  @Column({ name: 'updated_at', type: 'timestamp', nullable: true })
+  updatedAt: Date;
+
+  @BeforeInsert()
+  setCreatedAt() {
+    this.createdAt = new Date();
+  }
+
+  @BeforeUpdate()
+  setUpdatedAt() {
+    this.updatedAt = new Date();
+  }
 }
