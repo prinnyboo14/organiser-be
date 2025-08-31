@@ -28,7 +28,7 @@ export class BookingController {
   constructor(private readonly _bookings: Bookings) {}
 
   @Get()
-  @ApiOkResponse({ type: BookingResponse }) // does this type need to be changed
+  @ApiOkResponse({ type: BookingResponse, isArray: true })
   public async getBookings(): Promise<BookingResponse[]> {
     return await this._bookings.getAllBookings();
   }
@@ -65,7 +65,7 @@ export class BookingController {
   @HttpCode(204)
   @ApiNotFoundResponse({ description: `Booking not found` })
   @ApiParam({ name: 'id', type: String })
-  public async deleteBooking(@Param('id') id: string) {
+  public async deleteBooking(@Param('id') id: string): Promise<void> {
     return await this._bookings.deleteBooking(id);
   }
 }

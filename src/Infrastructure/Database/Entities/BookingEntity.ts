@@ -6,7 +6,10 @@ import {
   PrimaryGeneratedColumn,
   BeforeInsert,
   BeforeUpdate,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { CustomerEntity } from './CustomerEntity';
 
 @Entity({ name: 'booking' })
 export class BookingEntity extends BaseEntity {
@@ -33,6 +36,12 @@ export class BookingEntity extends BaseEntity {
 
   @Column({ name: 'updated_at', type: 'timestamp', nullable: true })
   updatedAt: Date;
+
+  @ManyToOne(() => CustomerEntity, (customer) => customer.bookings, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'customer_id' })
+  customer: CustomerEntity;
 
   @BeforeInsert()
   setCreatedAt() {

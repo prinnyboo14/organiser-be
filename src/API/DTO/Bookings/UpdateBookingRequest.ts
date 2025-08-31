@@ -2,25 +2,26 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsDate, IsOptional, IsString, MaxLength } from 'class-validator';
 import { BookingStatusEnum } from 'src/Domain/Models/Enums';
+import { API_EXAMPLES } from '../ApiExamples';
 
 export class UpdateBookingRequest {
-  @ApiPropertyOptional({ example: '2025-08-30T17:42:31.069Z' })
+  @ApiPropertyOptional({ example: API_EXAMPLES.date })
   @IsDate()
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   bookingDate: Date;
 
-  @ApiPropertyOptional({ example: 'MOT' })
+  @ApiPropertyOptional({ example: API_EXAMPLES.service })
   @IsString()
   @IsOptional()
   service: string;
 
-  @ApiPropertyOptional({ example: BookingStatusEnum.CONFIRMED })
+  @ApiPropertyOptional({ example: API_EXAMPLES.bookingStatus })
   @IsString()
   @IsOptional()
   bookingStatus: BookingStatusEnum;
 
-  @ApiPropertyOptional({ example: 'Needs further investigation' })
+  @ApiPropertyOptional({ example: API_EXAMPLES.notes })
   @IsString()
   @IsOptional()
   @MaxLength(500)
