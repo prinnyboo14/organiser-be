@@ -1,14 +1,17 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsDate,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
   ValidateNested,
 } from 'class-validator';
-import { BookingStatusEnum } from 'src/Domain/Models/Enums';
+import { Transform, Type } from 'class-transformer';
+
 import { API_EXAMPLES } from '../ApiExamples';
+import { BookingStatusEnum } from 'src/Domain/Models/Enums';
 import { CreateCustomerRequest } from '../Customers/CreateCustomerRequest';
 
 export class CreateBookingRequest {
@@ -17,6 +20,10 @@ export class CreateBookingRequest {
   @Transform(({ value }) => new Date(value))
   bookingDate: Date;
 
+  @ApiProperty({ example: API_EXAMPLES.number })
+  @IsNumber()
+  estimatedDuration: number;
+
   @ApiProperty({ example: API_EXAMPLES.service })
   @IsString()
   service: string;
@@ -24,6 +31,10 @@ export class CreateBookingRequest {
   @ApiProperty({ example: API_EXAMPLES.bookingStatus })
   @IsString()
   bookingStatus: BookingStatusEnum;
+
+  @ApiProperty({ example: API_EXAMPLES.boolean })
+  @IsBoolean()
+  isMOT: boolean;
 
   @ApiPropertyOptional({ example: API_EXAMPLES.notes })
   @IsString()

@@ -14,49 +14,53 @@ export class CustomerRepository implements ICustomerRepository {
     private readonly _customerEntity: Repository<CustomerEntity>,
   ) {}
 
+  async getAllCustomers(): Promise<Customer[]> {
+    return plainToInstance(Customer, await this._customerEntity.find());
+  }
+
   async getCustomerById(id: string): Promise<Customer> {
     const customer = await this._customerEntity.findOne({ where: { id } });
     return plainToInstance(Customer, customer);
   }
 
-  async getCustomerByEmail(email: string): Promise<CustomerEntity | null> {
-    if (!email) return null;
-    return await this._customerEntity.findOne({
-      where: { emailAddress: email },
-    });
-  }
+  // async getCustomerByEmail(email: string): Promise<CustomerEntity | null> {
+  //   if (!email) return null;
+  //   return await this._customerEntity.findOne({
+  //     where: { emailAddress: email },
+  //   });
+  // }
 
-  async getCustomerByPhone(
-    phoneNumber: string,
-  ): Promise<CustomerEntity | null> {
-    if (!phoneNumber) return null;
-    return await this._customerEntity.findOne({ where: { phoneNumber } });
-  }
+  // async getCustomerByPhone(
+  //   phoneNumber: string,
+  // ): Promise<CustomerEntity | null> {
+  //   if (!phoneNumber) return null;
+  //   return await this._customerEntity.findOne({ where: { phoneNumber } });
+  // }
 
-  async getCustomerByName(
-    firstName: string,
-    lastName: string,
-  ): Promise<CustomerEntity | null> {
-    if (!firstName || !lastName) return null;
-    return await this._customerEntity.findOne({
-      where: { firstName, lastName },
-    });
-  }
+  // async getCustomerByName(
+  //   firstName: string,
+  //   lastName: string,
+  // ): Promise<CustomerEntity | null> {
+  //   if (!firstName || !lastName) return null;
+  //   return await this._customerEntity.findOne({
+  //     where: { firstName, lastName },
+  //   });
+  // }
 
-  async findExistingCustomer(
-    data: CreateCustomerData,
-  ): Promise<Customer | null> {
-    let customer =
-      (data.phoneNumber && (await this.getCustomerByPhone(data.phoneNumber))) ||
-      (data.firstName &&
-        data.lastName &&
-        (await this.getCustomerByName(data.firstName, data.lastName))) ||
-      (data.emailAddress &&
-        (await this.getCustomerByEmail(data.emailAddress))) ||
-      null;
+  // async findExistingCustomer(
+  //   data: CreateCustomerData,
+  // ): Promise<Customer | null> {
+  //   let customer =
+  //     (data.phoneNumber && (await this.getCustomerByPhone(data.phoneNumber))) ||
+  //     (data.firstName &&
+  //       data.lastName &&
+  //       (await this.getCustomerByName(data.firstName, data.lastName))) ||
+  //     (data.emailAddress &&
+  //       (await this.getCustomerByEmail(data.emailAddress))) ||
+  //     null;
 
-    return customer ? plainToInstance(Customer, customer) : null;
-  }
+  //   return customer ? plainToInstance(Customer, customer) : null;
+  // }
 
   async createCustomer(
     createCustomerData: CreateCustomerData,

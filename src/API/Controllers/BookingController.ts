@@ -21,6 +21,7 @@ import { BookingResponse } from '../DTO/Bookings/BookingResponse';
 import { Bookings } from 'src/Domain/UseCases/Bookings';
 import { CreateBookingRequest } from '../DTO/Bookings/CreateBookingRequest';
 import { UpdateBookingRequest } from '../DTO/Bookings/UpdateBookingRequest';
+import { UUID } from 'crypto';
 
 @EnableSwagger('Bookings')
 @Controller('booking')
@@ -35,8 +36,8 @@ export class BookingController {
 
   @Get(':id')
   @ApiOkResponse({ type: BookingResponse })
-  @ApiParam({ name: 'id', type: String })
-  public async getBooking(@Param('id') id: string): Promise<BookingResponse> {
+  //@ApiParam({ name: 'id', type: String })
+  public async getBooking(@Param('id') id: UUID): Promise<BookingResponse> {
     return await this._bookings.getBooking(id);
   }
 
@@ -51,9 +52,9 @@ export class BookingController {
 
   @Put(':id')
   @ApiOkResponse({ type: BookingResponse })
-  @ApiParam({ name: 'id', type: String })
+  //@ApiParam({ name: 'id', type: String })
   public async updatebooking(
-    @Param('id') id: string,
+    @Param('id') id: UUID,
     @Body(new ValidationPipe())
     updateBookingRequest: UpdateBookingRequest,
   ): Promise<BookingResponse> {
@@ -64,8 +65,8 @@ export class BookingController {
   @ApiNoContentResponse({ description: 'Deleted successfully' })
   @HttpCode(204)
   @ApiNotFoundResponse({ description: `Booking not found` })
-  @ApiParam({ name: 'id', type: String })
-  public async deleteBooking(@Param('id') id: string): Promise<void> {
+  //@ApiParam({ name: 'id', type: UUID })
+  public async deleteBooking(@Param('id') id: UUID): Promise<void> {
     return await this._bookings.deleteBooking(id);
   }
 }

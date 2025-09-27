@@ -6,6 +6,7 @@ import {
   UpdateBookingData,
 } from '../Models/Values/BookingData';
 import { ICustomerRepository } from '../Ports/Repositories/ICustomerRepository';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class Bookings {
@@ -16,7 +17,7 @@ export class Bookings {
     private readonly _customerRepository: ICustomerRepository,
   ) {}
 
-  bookingNotFoundException(id: string) {
+  bookingNotFoundException(id: UUID) {
     // exception needs further work
     throw new NotFoundException(
       'BOOKING_NOT_FOUND',
@@ -29,15 +30,15 @@ export class Bookings {
   ): Promise<Booking> {
     // todo: check if booking already exists at that time
 
-    let customer = await this._customerRepository.findExistingCustomer(
+    // let customer = await this._customerRepository.findExistingCustomer(
+    //   createBookingData.customer,
+    // );
+
+    // if (!customer) {
+    const customer = await this._customerRepository.createCustomer(
       createBookingData.customer,
     );
-
-    if (!customer) {
-      customer = await this._customerRepository.createCustomer(
-        createBookingData.customer,
-      );
-    }
+    // }
 
     const bookingData: CreateBookingData = {
       ...createBookingData,
@@ -46,7 +47,7 @@ export class Bookings {
     return await this._bookingRepository.createBooking(bookingData);
   }
 
-  public async getBooking(id: string): Promise<Booking> {
+  public async getBooking(id: UUID): Promise<Booking> {
     return await this._bookingRepository.getBookingById(id);
   }
 
@@ -54,7 +55,7 @@ export class Bookings {
     return await this._bookingRepository.getAllBookings();
   }
 
-  public async updateBooking(id: string, updateBookingData: UpdateBookingData) {
+  public async updateBooking(id: UUID, updateBookingData: UpdateBookingData) {
     const bookingToUpdate = await this._bookingRepository.getBookingById(id);
 
     if (!bookingToUpdate) {
@@ -65,11 +66,12 @@ export class Bookings {
     bookingToUpdate.service = updateBookingData.service;
     bookingToUpdate.bookingStatus = updateBookingData.bookingStatus;
     bookingToUpdate.notes = updateBookingData.notes;
+    bookingToUpdate.estimatedDuration = updateBookingData.estimatedDuration;
 
     return await this._bookingRepository.updateBooking(bookingToUpdate);
   }
 
-  public async deleteBooking(id: string): Promise<void> {
+  public async deleteBooking(id: UUID): Promise<void> {
     const bookingToDelete = await this._bookingRepository.getBookingById(id);
 
     if (!bookingToDelete) {

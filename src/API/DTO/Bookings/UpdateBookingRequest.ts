@@ -1,8 +1,15 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsDate, IsOptional, IsString, MaxLength } from 'class-validator';
-import { BookingStatusEnum } from 'src/Domain/Models/Enums';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
+
 import { API_EXAMPLES } from '../ApiExamples';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { BookingStatusEnum } from 'src/Domain/Models/Enums';
+import { Transform } from 'class-transformer';
 
 export class UpdateBookingRequest {
   @ApiPropertyOptional({ example: API_EXAMPLES.date })
@@ -26,4 +33,9 @@ export class UpdateBookingRequest {
   @IsOptional()
   @MaxLength(500)
   notes?: string;
+
+  @ApiPropertyOptional({ example: API_EXAMPLES.number })
+  @IsNumber()
+  @IsOptional()
+  estimatedDuration?: number;
 }

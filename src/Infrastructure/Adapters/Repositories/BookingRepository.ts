@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
+import { UUID } from 'crypto';
 import { Booking } from 'src/Domain/Models/Aggregates/Booking';
 import { CreateBookingData } from 'src/Domain/Models/Values/BookingData';
 import { IBookingRepository } from 'src/Domain/Ports/Repositories/IBookingRepository';
@@ -24,12 +25,12 @@ export class BookingRepository implements IBookingRepository {
     return plainToInstance(Booking, createBooking);
   }
 
-  async getBookingById(id: string): Promise<Booking> {
+  async getBookingById(id: UUID): Promise<Booking> {
     const booking = await this._bookingEntity.findOne({ where: { id: id } });
     return plainToInstance(Booking, booking);
   }
 
-  async getBookingEntityById(id: string): Promise<BookingEntity> {
+  async getBookingEntityById(id: UUID): Promise<BookingEntity> {
     return await this._bookingEntity.findOne({ where: { id } });
   }
 

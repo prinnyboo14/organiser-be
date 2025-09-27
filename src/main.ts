@@ -1,10 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './AppModule';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './AppModule';
+import { NestFactory } from '@nestjs/core';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: process.env.FRONTEND_URL });
+  app.enableCors({
+    origin: process.env.FRONTEND_URL,
+  });
   app.setGlobalPrefix('api');
 
   const swaggerConfig = new DocumentBuilder()

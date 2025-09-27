@@ -30,6 +30,10 @@ export class Customers {
     return await this._customerRepository.getCustomerById(id);
   }
 
+  public async getAllCustomers(): Promise<Customer[]> {
+    return await this._customerRepository.getAllCustomers();
+  }
+
   public async updateCustomer(
     id: string,
     updateCustomerData: UpdateCustomerData,

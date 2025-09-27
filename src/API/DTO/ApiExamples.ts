@@ -10,4 +10,6 @@ export const API_EXAMPLES = {
   lastName: 'Wright',
   phoneNumber: '+447911123456',
   emailAddress: 'bethwright@example.com',
+  number: 8,
+  boolean: true,
 };

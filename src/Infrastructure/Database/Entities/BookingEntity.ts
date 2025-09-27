@@ -1,14 +1,15 @@
-import { BookingStatusEnum } from 'src/Domain/Models/Enums';
 import {
   BaseEntity,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
   BeforeInsert,
   BeforeUpdate,
-  ManyToOne,
+  Column,
+  Entity,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { BookingStatusEnum } from 'src/Domain/Models/Enums';
 import { CustomerEntity } from './CustomerEntity';
 
 @Entity({ name: 'booking' })
@@ -16,17 +17,20 @@ export class BookingEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @Column()
-  // bookingType: add booking type enum
-
   @Column()
   service: string;
 
   @Column({ name: 'booking_date', type: 'timestamp' })
   bookingDate: Date;
 
+  @Column({ name: 'estimated_duration', type: 'int' })
+  estimatedDuration: number;
+
   @Column({ name: 'booking_status' })
   bookingStatus: BookingStatusEnum;
+
+  @Column()
+  isMOT: boolean;
 
   @Column({ nullable: true })
   notes: string;

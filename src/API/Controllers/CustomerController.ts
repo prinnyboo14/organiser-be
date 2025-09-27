@@ -34,6 +34,12 @@ export class CustomerController {
     return await this._customers.getCustomer(id);
   }
 
+  @Get()
+  @ApiOkResponse({ type: CustomerResponse, isArray: true })
+  public async getAllCustomers(): Promise<CustomerResponse[]> {
+    return await this._customers.getAllCustomers();
+  }
+
   @Post()
   @ApiCreatedResponse({ type: CustomerResponse })
   public async createCustomer(
